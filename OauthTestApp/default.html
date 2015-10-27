@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>OauthTestApp</title>
+
+    <!-- WinJS references -->
+    <link href="WinJS/css/ui-dark.css" rel="stylesheet" />
+    <script src="WinJS/js/base.js"></script>
+    <script src="WinJS/js/ui.js"></script>
+
+    <!-- OauthTestApp references -->
+    <link href="/css/default.css" rel="stylesheet" />
+
+    <script src="js/config.js"></script>
+    <script src="js/configUntracked.js"></script>
+
+    <script src="/js/default.js"></script>
+    <script src="js/oauth.js"></script>
+</head>
+<body class="win-type-body">
+
+    <section class="main">
+        <button id="goButton">Get activities</button>
+        <div id="result" style="height:100%;">
+            <div data-win-control="WinJS.UI.ListView" id="resultList" style="height:90%;">
+            </div>
+        </div>
+    </section>
+
+    <div class="tileTemplate" data-win-control="WinJS.Binding.Template">
+        <div class="tileTempl" style="width:250px;height:200px;background-size:cover" 
+             data-win-bind="style.backgroundImage: snippet.thumbnails.maxres.url TimmyTools.toUrl" >
+            <div data-win-bind="innerText: snippet.title"></div>
+        </div>
+    </div>
+
+</body>
+</html>
