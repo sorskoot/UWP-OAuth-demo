@@ -39,6 +39,7 @@
         try {
             let credential = passwordVault.retrieve("OauthToken", "CurrentUser");
             storedToken = credential.password;
+            //passwordVault.remove(credential);
         } catch (e) {
             // no stored credentials
         }
@@ -46,10 +47,10 @@
     }
 
     function grant(token) {
-        var oauthUrl = youtubeConfig.token_uri;
-        var clientId = youtubeConfig.client_id;
-        var clientSecret = youtubeConfig.client_secret;
-        var redirectUrl = youtubeConfig.redirect_uris[0];
+        let oauthUrl = youtubeConfig.token_uri,
+            clientId = youtubeConfig.client_id,
+            clientSecret = youtubeConfig.client_secret,
+            redirectUrl = youtubeConfig.redirect_uris[0];
 
         return WinJS.xhr({
             type: "post",
@@ -69,10 +70,10 @@
     };
 
     function refresh(token) {
-        var oauthUrl = youtubeConfig.token_uri;
-        var clientId = youtubeConfig.client_id;
-        var clientSecret = youtubeConfig.client_secret;
-        var redirectUrl = youtubeConfig.redirect_uris[0];
+        let oauthUrl = youtubeConfig.token_uri,
+            clientId = youtubeConfig.client_id,
+            clientSecret = youtubeConfig.client_secret,
+            redirectUrl = youtubeConfig.redirect_uris[0];
 
         return WinJS.xhr({
             type: "post",
@@ -94,22 +95,21 @@
     /// authenticate at YouTube
     function authenticate() {
         return new WinJS.Promise(function (complete, error) {
-            var oauthUrl = youtubeConfig.auth_uri;
-            var clientId = youtubeConfig.client_id;
-            var redirectUrl = youtubeConfig.redirect_uris[0];
-            let scope = ['https://www.googleapis.com/auth/youtube',
+            let oauthUrl = youtubeConfig.auth_uri,
+                clientId = youtubeConfig.client_id,
+                redirectUrl = youtubeConfig.redirect_uris[0],
+                scope = ['https://www.googleapis.com/auth/youtube',
                          'https://www.googleapis.com/auth/youtube.force-ssl',
                          'https://www.googleapis.com/auth/youtube.readonly'
-            ].join('+');
-            var requestUri = Windows.Foundation.Uri(
-                `${oauthUrl}?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUrl)}&response_type=code&access_type=offline&scope=${scope}&display=popup`);
-
-            var callbackUri = Windows.Foundation.Uri(redirectUrl);
+                ].join('+');
+            let requestUri = Windows.Foundation.Uri(
+                                  `${oauthUrl}?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUrl)}&response_type=code&access_type=offline&scope=${scope}&display=popup`);
+            let callbackUri = Windows.Foundation.Uri(redirectUrl);
             Windows.Security.Authentication.Web.WebAuthenticationBroker.
                 authenticateAsync(Windows.Security.Authentication.Web.
                     WebAuthenticationOptions.none, requestUri, callbackUri)
                 .done(
-                    result=>{
+                    result=> {
                         if (result.responseStatus == 0) {
                             complete(result.responseData.replace('https://localhost/oauth2callback?code=', ''));
                         } else {
@@ -126,14 +126,14 @@
         if (typeof data !== 'object') {
             return ((data == null) ? "" : data.toString());
         }
-        var buffer = [];
+        let buffer = [];
 
         // Serialize each key in the object.
-        for (var name in data) {
+        for (let name in data) {
             if (!data.hasOwnProperty(name)) {
                 continue;
             }
-            var value = data[name];
+            let value = data[name];
             if (!!encode) {
                 buffer.push(`${encodeURIComponent(name)}=${encodeURIComponent((value == null) ? "" : value)}`);
             } else {
@@ -141,7 +141,7 @@
             }
         }
         // Serialize the buffer and clean it up for transportation.
-        var source = buffer.join("&").replace(/%20/g, "+");
+        let source = buffer.join("&").replace(/%20/g, "+");
         return (source);
     }
 
